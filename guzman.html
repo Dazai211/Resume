@@ -167,6 +167,16 @@
                 </div>
             </div>
 
+            <div class="resume-section">
+                <h2 class="section-title">Dynamic Content</h2>
+                <div id="api-content" style="margin-top: 20px; padding: 20px; background: rgba(138, 43, 226, 0.05); border-radius: 12px; border: 1px solid rgba(138, 43, 226, 0.1);">
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.2rem; color: #ffffff; margin-bottom: 10px;">USD to PHP Exchange Rate</div>
+                        <div id="rate-display" style="font-size: 1.5rem; color: #8a2be2; font-weight: 600;">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
             <div style="text-align: center; margin-top: 40px;">
                 <a href="index.html" class="back-link">← Back to Team</a>
             </div>
@@ -204,6 +214,18 @@
             animatedElements.forEach(el => {
                 observer.observe(el);
             });
+
+            // Fetch exchange rate
+            fetch('https://api.exchangerate-api.com/v4/latest/USD')
+                .then(response => response.json())
+                .then(data => {
+                    const phpRate = data.rates.PHP;
+                    document.getElementById('rate-display').textContent = `1 USD = ${phpRate.toFixed(2)} PHP`;
+                })
+                .catch(error => {
+                    document.getElementById('rate-display').textContent = 'Unable to load rate';
+                    console.error('Error fetching exchange rate:', error);
+                });
         });
     </script>
 </body>
