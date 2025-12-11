@@ -164,6 +164,16 @@
                 </div>
             </div>
 
+            <div class="resume-section">
+                <h2 class="section-title">Dynamic Content</h2>
+                <div id="api-content" style="margin-top: 20px; padding: 20px; background: rgba(138, 43, 226, 0.05); border-radius: 12px; border: 1px solid rgba(138, 43, 226, 0.1);">
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.2rem; color: #ffffff; margin-bottom: 10px;">Random Fact</div>
+                        <div id="fact-display" style="font-size: 1.1rem; color: #8a2be2; font-style: italic;">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
             <div style="text-align: center; margin-top: 40px;">
                 <a href="index.html" class="back-link">← Back to Team</a>
             </div>
@@ -199,6 +209,17 @@
             animatedElements.forEach(el => {
                 observer.observe(el);
             });
+
+            // Fetch random fact
+            fetch('https://uselessfacts.jsph.pl/random.json?language=en')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('fact-display').textContent = data.text;
+                })
+                .catch(error => {
+                    document.getElementById('fact-display').textContent = 'Unable to load fact';
+                    console.error('Error fetching fact:', error);
+                });
         });
     </script>
 </body>
