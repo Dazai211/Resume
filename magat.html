@@ -135,6 +135,16 @@
                 </div>
             </div>
 
+            <div class="resume-section">
+                <h2 class="section-title">Dynamic Content</h2>
+                <div id="api-content" style="margin-top: 20px; padding: 20px; background: rgba(138, 43, 226, 0.05); border-radius: 12px; border: 1px solid rgba(138, 43, 226, 0.1);">
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.2rem; color: #ffffff; margin-bottom: 10px;">Weather in Manila</div>
+                        <div id="weather-display" style="font-size: 1.3rem; color: #8a2be2; font-weight: 600;">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
             <div style="text-align: center; margin-top: 40px;">
                 <a href="index.html" class="back-link">← Back to Team</a>
             </div>
@@ -171,6 +181,19 @@
             animatedElements.forEach(el => {
                 observer.observe(el);
             });
+
+            // Fetch weather
+            fetch('https://wttr.in/Manila?format=j1')
+                .then(response => response.json())
+                .then(data => {
+                    const tempC = data.current_condition[0].temp_C;
+                    const weatherDesc = data.current_condition[0].weatherDesc[0].value;
+                    document.getElementById('weather-display').textContent = `${tempC}°C, ${weatherDesc}`;
+                })
+                .catch(error => {
+                    document.getElementById('weather-display').textContent = 'Unable to load weather';
+                    console.error('Error fetching weather:', error);
+                });
         });
     </script>
 </body>
